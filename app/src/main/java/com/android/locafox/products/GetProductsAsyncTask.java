@@ -3,10 +3,12 @@ package com.android.locafox.products;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.android.locafox.ITask;
+import com.android.locafox.common.ITask;
 import com.android.locafox.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -77,6 +79,8 @@ public class GetProductsAsyncTask extends AsyncTask<Void, Void, ArrayList<Produc
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Product.class, new Product());
         Gson gson = gsonBuilder.create();
-        return gson.fromJson(reader, new TypeToken<ArrayList<Product>>() {}.getType());
+
+        JsonElement jse = new JsonParser().parse(reader);
+        return gson.fromJson(jse.getAsJsonObject().get("products"), new TypeToken<ArrayList<Product>>() {}.getType());
     }
 }

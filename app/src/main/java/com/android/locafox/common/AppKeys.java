@@ -1,4 +1,4 @@
-package com.android.locafox;
+package com.android.locafox.common;
 
 /**
  * Created by Erno on 5/31/2015.

@@ -11,18 +11,29 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@drawable/card_bg"
         >
         <AutoCompleteTextView
+            android:id="@+id/search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:hint="@string/search_hint"
+            android:background="@null"
             />
         <ProgressBar
+            android:id="@+id/search_progr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
             android:visibility="gone"
-            style="?android:progressBarStyleSmall"/>
+            />
+        <ImageButton
+            android:id="@+id/search_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/abc_ic_clear_mtrl_alpha"
+            />
     </LinearLayout>
 
 </RelativeLayout>
