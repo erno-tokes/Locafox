@@ -6,8 +6,11 @@ import android.os.Parcelable;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 
@@ -88,8 +91,21 @@ public class Product implements Parcelable, JsonDeserializer<Product>{
 
     @Override
     public Product deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        if(json == null || json.isJsonNull())
+            return null;
         Product p = new Product();
-
+        JsonObject jp = json.getAsJsonObject();
+        if(jp.get("indexable_name") != null)
+            p.setName(jp.get("indexable_name").getAsString());
+        if(jp.get("description") != null){
+            p.setDesc(jp.get("description").getAsString());
+        }
+        if(jp.get("images") != null && jp.get("images").isJsonArray() && jp.get("images").getAsJsonArray().size() > 0){
+            p.setImageUrl(jp.get("images").getAsJsonArray().get(0).getAsJsonObject().get("image").getAsString());
+        }
+        if(jp.get("location") != null && jp.get("location").isJsonArray()){
+            p.setAvailability(jp.get("location").getAsJsonArray().size());
+        }
         return p;
     }
 }

@@ -5,10 +5,15 @@ import android.os.AsyncTask;
 
 import com.android.locafox.ITask;
 import com.android.locafox.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 
 /**
@@ -28,18 +33,28 @@ public class GetProductsAsyncTask extends AsyncTask<Void, Void, ArrayList<Produc
     @Override
     protected ArrayList<Product> doInBackground(Void... params) {
 
-        OkHttpClient client = new OkHttpClient();
+        error = null;
         Response response = null;
         try {
-            response = client.newCall(new Request.Builder().url(url).build()).execute();
+            if(isCancelled()) {
+                return null;
+            }
+            response = makeRequest();
         }
         catch (Exception e){
             error = e;
             return null;
         }
-
-
-        return null;
+        try {
+            if(isCancelled()){
+                return null;
+            }
+            return deserialize(response.body().charStream());
+        }
+        catch (Exception e){
+            error = e;
+            return null;
+        }
     }
 
     @Override
@@ -49,6 +64,19 @@ public class GetProductsAsyncTask extends AsyncTask<Void, Void, ArrayList<Produc
                 taskListener.onError(error);
                 return;
             }
+            taskListener.onCompleted(result);
         }
+    }
+
+    private Response makeRequest() throws IOException{
+        OkHttpClient client = new OkHttpClient();
+        return client.newCall(new Request.Builder().url(url).build()).execute();
+    }
+
+    private ArrayList<Product> deserialize(Reader reader) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Product.class, new Product());
+        Gson gson = gsonBuilder.create();
+        return gson.fromJson(reader, new TypeToken<ArrayList<Product>>() {}.getType());
     }
 }

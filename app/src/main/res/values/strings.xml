@@ -4,7 +4,7 @@
     <string name="search_data_url">http://codeyourapp.net/products.json</string>
 
     <string name="search_hint">Search</string>
-    <string name="search_error">Couldn't load data</string>
+    <string name="search_error">Couldn\'t load data</string>
     <string name="search_locations">Search available in %s locations</string>
     <string name="product_availability">Available in %s stores</string>
 </resources>
