@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/search_view_height"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:background="@drawable/card_bg"
@@ -16,10 +16,13 @@
         <AutoCompleteTextView
             android:id="@+id/search_text"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:hint="@string/search_hint"
+            android:layout_marginLeft="@dimen/view_xsmall_margin"
             android:background="@null"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
             />
         <ProgressBar
             android:id="@+id/search_progr"
@@ -33,7 +36,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/abc_ic_clear_mtrl_alpha"
+            android:visibility="gone"
             />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
 
 </RelativeLayout>

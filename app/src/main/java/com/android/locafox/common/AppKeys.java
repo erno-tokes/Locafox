@@ -6,4 +6,5 @@ package com.android.locafox.common;
 public class AppKeys {
 
     public static final String EXTRA_PRODUCTS_DATA = "extra_products_data";
+    public static final String EXTRA_SELECTED_PRODUCT = "extra_selected_product";
 }

@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.locafox.products.ProductFragment"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/product_name_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/search_view_height"
+        android:textAppearance="?android:textAppearanceLarge"
+        />
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_marginTop="@dimen/view_xsmall_margin"
+        android:layout_marginBottom="@dimen/view_xsmall_margin"
+        android:scaleType="centerInside"
+        />
+
+    <TextView
+        android:id="@+id/product_availability_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="top"
+        android:textAppearance="?android:textAppearanceMedium"
+        />
+
+</LinearLayout>
