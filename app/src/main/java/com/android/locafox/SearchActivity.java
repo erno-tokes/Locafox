@@ -26,11 +26,13 @@ import com.android.locafox.ui.LogoFragment;
 import com.android.locafox.ui.StoresFragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class SearchActivity extends ActionBarActivity {
 
     private ArrayList<Product> products;
+    private ArrayList<Product> adapterProducts;
     private Product selectedProduct;
     private GetProductsAsyncTask getProductsTask;
     private ProgressBar searchProgress;
@@ -90,14 +92,12 @@ public class SearchActivity extends ActionBarActivity {
         searchText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(products != null){
-                    startActivityForProduct(products.get(position));
+                if (adapterProducts != null) {
+                    startActivityForProduct(adapterProducts.get(position));
                 }
             }
         });
-        if(products != null){
-            searchText.setAdapter(new ProductsFilterableAdapter(this, products));
-        }
+        setAutocompleteAdaper();
 
         cancelButton = (ImageButton)findViewById(R.id.search_cancel);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class SearchActivity extends ActionBarActivity {
         if (intent != null){
             if(intent.hasExtra(AppKeys.EXTRA_PRODUCTS_DATA)) {
                 products = intent.getExtras().getParcelableArrayList(AppKeys.EXTRA_PRODUCTS_DATA);
-                searchText.setAdapter(new ProductsFilterableAdapter(this, products));
+                setAutocompleteAdaper();
             }
             if(intent.hasExtra(AppKeys.EXTRA_SELECTED_PRODUCT)) {
                 selectedProduct = intent.getExtras().getParcelable(AppKeys.EXTRA_SELECTED_PRODUCT);
@@ -209,6 +209,17 @@ public class SearchActivity extends ActionBarActivity {
     }
 
     /**
+     * Sets the search suggestions adapter
+     */
+    private void setAutocompleteAdaper(){
+        if(searchText != null && products != null){
+            Product[] prods = products.toArray(new Product[]{});
+            adapterProducts = new ArrayList<>(Arrays.asList(prods));
+            searchText.setAdapter(new ProductsFilterableAdapter(this, adapterProducts));
+        }
+    }
+
+    /**
      * Starts fetching products data if already was not started
      */
     private void getProducts(){
@@ -220,7 +231,7 @@ public class SearchActivity extends ActionBarActivity {
             @Override
             public void onCompleted(ArrayList<Product> result) {
                 SearchActivity.this.products = result;
-                searchText.setAdapter(new ProductsFilterableAdapter(SearchActivity.this, products));
+                setAutocompleteAdaper();
                 searchProgress.setVisibility(View.GONE);
             }
 

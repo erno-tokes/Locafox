@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ProductsFilterableAdapter extends ArrayAdapter<Product> {
     private LayoutInflater layoutInflater;
-    List<Product> products;
+    List<Product> filteredProducts;
 
     private Filter filter = new Filter() {
         @Override
@@ -28,18 +28,15 @@ public class ProductsFilterableAdapter extends ArrayAdapter<Product> {
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
 
-            if (constraint != null) {
+            if(constraint != null) {
                 ArrayList<Product> suggestions = new ArrayList<Product>();
-                for (Product product : products) {
+                for (Product product : filteredProducts) {
                     for(String desc : product.getDesc().split(", ")){
-                        if(desc.toLowerCase().equals(constraint.toString().toLowerCase())){
+                        if(desc.toLowerCase().contains(constraint.toString().toLowerCase())){
                             suggestions.add(product);
                             break;
                         }
                     }
-                    /*if (product.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        suggestions.add(product);
-                    }*/
                 }
 
                 results.values = suggestions;
@@ -55,9 +52,6 @@ public class ProductsFilterableAdapter extends ArrayAdapter<Product> {
             if (results != null && results.count > 0) {
                 // the filtered products
                 addAll((ArrayList<Product>) results.values);
-            } else {
-                //all non filtered products
-                addAll(products);
             }
             notifyDataSetChanged();
         }
@@ -65,8 +59,7 @@ public class ProductsFilterableAdapter extends ArrayAdapter<Product> {
 
     public ProductsFilterableAdapter(Context context, List<Product> products) {
         super(context, android.R.layout.simple_list_item_1, products);
-        this.products = new ArrayList<Product>(products.size());
-        this.products.addAll(products);
+        this.filteredProducts = new ArrayList<Product>(products);
         layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

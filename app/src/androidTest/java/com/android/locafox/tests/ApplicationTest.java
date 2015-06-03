@@ -1,4 +1,4 @@
-package com.android.locafox;
+package com.android.locafox.tests;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
