@@ -23,6 +23,9 @@
             android:name="com.android.locafox.tests.SearchActivityTest"
             >
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="4081eaa318755f58d52ce9f13b8bc6bca66e5b0b" />
     </application>
 
 </manifest>

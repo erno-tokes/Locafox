@@ -25,6 +25,8 @@ import com.android.locafox.products.ProductsFilterableAdapter;
 import com.android.locafox.ui.LogoFragment;
 import com.android.locafox.ui.StoresFragment;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,6 +44,7 @@ public class SearchActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_search);
         if(savedInstanceState != null) {
             if (savedInstanceState.containsKey(AppKeys.EXTRA_PRODUCTS_DATA)) {
